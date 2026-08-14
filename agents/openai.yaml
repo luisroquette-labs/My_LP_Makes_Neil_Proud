@@ -1,0 +1,4 @@
+interface:
+  display_name: "My_LP_Makes_Neil_Proud"
+  short_description: "Evidence-backed landing-page audit score"
+  default_prompt: "Use $my-lp-makes-neil-proud to audit this landing page with an adherence score, launch readiness, metrics, and traceable sources."

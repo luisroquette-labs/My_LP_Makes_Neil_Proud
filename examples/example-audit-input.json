@@ -1,0 +1,28 @@
+{
+  "scores": {
+    "objective_intent": 4,
+    "offer": 3.5,
+    "message_aida": 4,
+    "cta_focus": 4.5,
+    "form_friction": 3,
+    "proof_trust": 3.5,
+    "visual_ux": 4,
+    "mobile_performance": 4,
+    "seo_channel": 3,
+    "data_privacy": 3.5,
+    "measurement": 3,
+    "aftercare": 4
+  },
+  "not_applicable": [],
+  "metrics": {
+    "unique_visitors": 1000,
+    "conversions": 120,
+    "page_views": 1100,
+    "cta_clicks": 260,
+    "attributable_spend": 1800,
+    "valid_leads": 105,
+    "visits_without_action": 480,
+    "total_visits": 1000
+  }
+}
+
