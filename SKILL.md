@@ -1,74 +1,74 @@
 ---
 name: my-lp-makes-neil-proud
-description: Audit third-party landing pages with a 0-100 adherence score, launch-readiness status, evidence, and prioritized fixes strictly traceable to three user-provided Neil Patel guides. Use when auditing, reviewing, approving, rejecting, or comparing a landing page from a URL, screenshot, HTML, copy, prototype, or metrics; covers objective, intent, offer, AIDA, headline, benefits, CTA, simplicity, form, social proof, images, UX, mobile, SEO, privacy, tracking, post-conversion, and A/B tests.
+description: Full landing-page cycle — brief and create (6 LP models, from URL or instruction), edit by natural-language command (Mini-Lovable), audit against a 12-criterion conversion rubric, and publish under a pluggable tracklink contract. Use when creating, editing, auditing, reviewing, approving, or publishing a landing page from a URL, screenshot, HTML, copy, prototype, or brief; covers objective, intent, offer, AIDA, headline, benefits, CTA, form, social proof, UX, mobile, SEO, privacy, tracking, and post-conversion delivery.
 ---
 
-# Audit landing pages against the supplied guides
+# Landing-page cycle
 
-Apply only criteria traceable to the three source documents. Treat the score as an operationalization of the guides, not an official Neil Patel methodology.
+Orchestrates the five stages of a landing page: Briefing → Creation → Editing (Mini-Lovable) → Audit → Publication. Each stage has its own references and an output contract. The audit stage also works standalone, exactly as in v1.
 
-## Load the references
+Load only the references of the stage being executed.
 
-Before the first audit in a conversation, read these files completely and in this order:
+## Modes
 
-1. [references/source-map.md](references/source-map.md) — origin and scope of each rule;
-2. [references/framework.md](references/framework.md) — principles and contextual decisions;
-3. [references/rubric.md](references/rubric.md) — criteria, weights, and readiness;
-4. [references/metrics.md](references/metrics.md) — formulas, interpretation, and historical claims.
+- **Full cycle** — default when asked to create or publish a landing page.
+- **Standalone audit** — when asked only to audit/review/approve a page. Execute Stage 4 alone.
 
-If the three original snapshots are available, run `python3 scripts/verify_sources.py`. On `mismatch`, reread the changed source and update the references before auditing. A `missing` file does not block use of the documented snapshots in `source-map.md`.
+## Global hard rules (apply to every stage)
 
-## Establish context
+1. **Anti-fabrication.** Never invent price, deadline, credential, testimonial, or claim. A missing datum is omitted or labeled `Not verified` — never zero, never guessed.
+2. **Form clause (pétrea).** Every LP has a form connected to the right funnel. Minimum three fields: name + phone + email. Reversing requires owner approval.
+3. **Absence is never zero.** Missing data is `Not verified`, never 0/false/ok.
+4. **Never publish without gates.** All applicable gates must pass before publication. A published page must always satisfy the structural gate at minimum.
+5. **Never promise lift.** Distinguish historical example, hypothesis, and observed result. Never praise without evidence.
+6. **Never act on a page without authorization.** Never submit a form, buy, publish, or change a page the user did not authorize.
 
-Identify:
+## Stage 1 — Briefing
 
-- page type: pre-launch, lead capture, sales, or thank-you;
-- single conversion objective and expected action;
-- persona, pain, intent, funnel stage, and requested commitment;
-- offer, traffic source, and pre-click promise;
-- primary device, channel, deadline, and available metrics;
-- publication domain, responsible identity, and alignment among brand, URL, and offer.
+Load `references/briefing/contexto-e-decisoes.md`.
 
-When data is missing, proceed with declared assumptions. Ask one short question only when the absence prevents a useful evaluation.
+**Input:** URL of an existing page or a free-text brief.
 
-## Inspect without converting
+**Output contract:**
+- A blueprint draft filled only with facts found in the source (extraction) or stated in the brief (instruction) — nothing else.
+- The five quick decisions collected explicitly: `objetivo`, `evergreen`, `tema`, `comprimento`, `riscoOferta`.
+- The model classified by the heuristic (or explicit selection) from `references/criacao/modelos.md`.
+- Declared assumptions, one short question only when the absence prevents useful work.
 
-For a live URL:
+## Stage 2 — Creation
 
-1. inspect desktop and mobile;
-2. inspect promise, content, hierarchy, images, CTA, links, form, and post-conversion path;
-3. verify technical behavior without creating a lead;
-4. inspect SEO, tracking, HTTPS, and data transparency when accessible.
+Load `references/criacao/blueprint.md`, then `references/criacao/modelos.md`, then `references/criacao/geracao.md`. Load `references/criacao/perfis-copy.md` when a copy profile applies.
 
-Do not submit a form, buy, publish, or change the page without explicit authorization. Label every finding as:
+**Output contract:**
+- A blueprint draft matching the schema, model, and profile chosen in Stage 1.
+- Gate results, in order: estrutura (form, run `python3 scripts/validar-blueprint.py --input <draft>.json`), modelo, seo (blocking when `evergreen: true`), contraste (blocking when `visual` present).
+- The draft is delivered for human review. **Creation never saves or publishes on its own.** A draft may be incomplete; publication may not.
 
-- `Confirmed`: directly observed or tested;
-- `Inferred`: contextual conclusion with its basis stated;
-- `Not verified`: requires analytics, traffic-source context, credentials, or a real conversion.
+## Stage 3 — Editing (Mini-Lovable)
 
-## Score adherence
+Load `references/edicao/mini-lovable.md`; load `references/edicao/tokens-visuais.md` when visual tokens are involved.
 
-1. Apply the twelve criteria in [references/rubric.md](references/rubric.md).
-2. Score each criterion from 0 to 5 in 0.5 increments.
-3. Use `N/A` only when structurally inapplicable. Missing data is `Not verified`, not `N/A`.
-4. Run `python3 scripts/calculate_score.py --input <json>` to calculate the score and supplied metrics.
-5. Report coverage, excluded weight, and confidence. Treat a score below 100% coverage as provisional.
-6. Cite at least one source identifier `[S1]`, `[S2]`, or `[S3]` in each priority fix.
+**Output contract:**
+- The command applied surgically: only targeted fields changed, everything else identical.
+- The element contract respected: edits target `data-lp-role` elements and the per-model form anchor.
+- All gates from Stage 2 re-run and passing after the edit.
+- The edit brief autosaved; model reclassification reported when the edit changes the LP's nature.
 
-Keep the **adherence score** separate from **launch readiness**. A page may follow visual principles and still be unready because the CTA or form does not deliver the conversion.
+## Stage 4 — Audit
 
-## Handle contextual rules correctly
+Load, in this order: `references/auditoria/source-map.md`, `references/auditoria/framework.md`, `references/auditoria/rubric.md`, `references/auditoria/metrics.md`.
 
-- Never require a short or long page by default. Relate length to risk, commitment, and traffic temperature.
-- Never require video. Evaluate whether it explains, demonstrates, retains attention, or builds trust.
-- Never choose a universal winning color. Evaluate contrast, harmony, brand, and tested results.
-- Never require exactly two fields. Ask only for what is necessary and proportional to the offer, persona, and funnel stage.
-- Never remove every menu automatically. Reduce pre-conversion distraction; allow useful navigation on thank-you pages.
-- Never present article percentages as a benchmark, forecast, or guarantee.
+**Workflow (unchanged from v1):**
+0. If the three original snapshots are available, run `python3 scripts/verify_sources.py`; on `mismatch`, reread the changed source and update the references before auditing.
+1. Establish context: page type, single conversion objective, persona, intent, funnel stage, offer, traffic source, pre-click promise, device, deadline, metrics.
+2. Inspect without converting (desktop and mobile): promise, content, hierarchy, images, CTA, links, form, post-conversion path, SEO, tracking, HTTPS, data transparency. Never submit a form, buy, publish, or change the page.
+3. Score the twelve criteria from 0 to 5 in 0.5 increments; `N/A` only when structurally inapplicable; missing data is `Not verified`, never `N/A` and never zero.
+4. Label every finding `Confirmed`, `Inferred`, or `Not verified`.
+5. Run `python3 scripts/calculate_score.py --input <json>` for the score and supplied metrics.
+6. Keep the adherence score separate from launch readiness.
+7. Never require a short/long page, video, a universal color, or an exact field count. Never present article percentages as benchmarks or guarantees.
 
-## Required output
-
-Start with:
+**Required output:**
 
 ```markdown
 Adherence score: 00/100 — high|medium|low confidence — 00% coverage
@@ -76,12 +76,22 @@ Readiness: ready | ready with corrections | not ready
 Biggest lever: one sentence
 ```
 
-Then present, in this order:
+Then: (1) table of all twelve criteria — weight, score, points, evidence state, source; (2) up to five fixes in `P0/P1/P2` format with `problem → evidence → impact → correction → source` (`[S1]`, `[S2]`, or `[S3]`); (3) calculated real metrics and interpretation when provided; (4) up to three unverified items that could change the conclusion; (5) up to three A/B hypotheses only after obvious defects are fixed and measurement is sufficient.
 
-1. a table of all twelve criteria: weight, score, points, evidence state, and source;
-2. up to five fixes in `P0/P1/P2` format: `problem → evidence → impact → correction → source`;
-3. calculated real metrics and interpretation, when provided;
-4. up to three unverified items that could change the conclusion;
-5. up to three A/B hypotheses only after obvious defects are fixed and measurement is sufficient.
+## Stage 5 — Publication
 
-Never promise lift. Distinguish historical example, hypothesis, and observed result. Never praise without evidence.
+Load `references/publicacao/contrato-tracklink.md`.
+
+**Output contract — every item of section (a) verified before publication:**
+1. Canonical slug (never a placeholder; rename is atomic: slug + `seo.urlSlug` + tracking destinations together).
+2. Per-LP SEO (metaTitle 30–65, metaDescription 120–160, OpenGraph/Twitter — never the site's generic card).
+3. JSON-LD schema (`Course`/`WebPage`), `<` escaped in the serialized output.
+4. LGPD consent rendered and required; conversion button disabled only during submission.
+5. Thank-you page exists, published, and pointed at from `thankYou.slug`.
+6. `/lp/*` routes listed in the sitemap, fail-safe.
+
+The tracklink half (b) is pluggable: consult the contract, connect the repository when it ships, and change nothing else in this skill.
+
+## Versioning
+
+This skill is versioned with SemVer — see `references/versionamento.md` and `CHANGELOG.md`. Report which version you are executing when starting a session that loads this skill.

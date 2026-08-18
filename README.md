@@ -1,64 +1,42 @@
 # My_LP_Makes_Neil_Proud
 
-**Turn any landing page into an evidence-backed conversion audit — scored, prioritized, and ready to act on.**
+**The full landing-page cycle: brief, create, edit by command, audit, and publish — evidence-backed at every stage.**
 
-Audit a live URL, screenshot, HTML file, copy draft, or prototype with a 12-criterion rubric derived from three Neil Patel landing-page guides. Get a 0–100 adherence score, a separate launch-readiness decision, and up to five prioritized fixes.
+Create a landing page from a URL or a brief in one of six strategies, edit it with natural-language commands, audit it against a 12-criterion conversion rubric derived from three Neil Patel landing-page guides, and publish it under a pluggable tracklink contract.
 
-[Download the skill](https://github.com/luisroquette/My_LP_Makes_Neil_Proud/archive/refs/heads/main.zip) · [Install for Codex](#install) · [See the rubric](references/rubric.md)
+[Download the skill](https://github.com/luisroquette/My_LP_Makes_Neil_Proud/archive/refs/heads/main.zip) · [Install for Codex](#install) · [See the rubric](references/auditoria/rubric.md) · [Changelog](CHANGELOG.md)
 
-> Independent open-source implementation. The score and weights are an operationalization of the cited guides, not an official Neil Patel or NP Digital methodology. This project is not affiliated with or endorsed by Neil Patel or NP Digital.
+> Independent open-source implementation. The audit score and weights are an operationalization of the cited guides, not an official Neil Patel or NP Digital methodology. This project is not affiliated with or endorsed by Neil Patel or NP Digital.
 
-## Why use it
+## The cycle
 
-Most landing-page reviews collapse into taste: change the button color, shorten the page, add testimonials. This skill forces every important claim to answer four questions:
+| Stage | What it does | Reference |
+|---|---|---|
+| 1. Briefing | Extracts facts from a URL (or a free-text brief), collects the five creator decisions, classifies the model — without fabricating anything | `references/briefing/` |
+| 2. Creation | Builds the blueprint for one of 6 LP models, gated in cascade: form → model → SEO → WCAG contrast | `references/criacao/` |
+| 3. Editing (Mini-Lovable) | Applies free-text commands surgically by section path, with an autosaved edit brief | `references/edicao/` |
+| 4. Audit | Scores the page 0–100 on 12 weighted criteria, readiness, P0/P1/P2 fixes with evidence | `references/auditoria/` |
+| 5. Publication | Verifies the published-LP obligations and connects the tracklink system by contract | `references/publicacao/` |
 
-| Question | What the audit returns |
+The dashboard of issued LPs is defined as a pluggable contract (`references/dashboard/`) — implementation arrives together with the tracklink repository.
+
+## Why it holds up
+
+Every important claim answers four questions:
+
+| Question | What the cycle returns |
 |---|---|
 | What is actually wrong? | A specific, observable finding |
 | How serious is it? | `P0`, `P1`, or `P2` priority |
 | What should change? | A concrete correction |
 | Why does it matter? | A traceable source identifier |
 
-## What you get
+Plus the invariants that make the system robust:
 
-- **0–100 adherence score** across 12 weighted conversion criteria
-- **Launch readiness** kept separate from visual or copy quality
-- **Evidence labels:** Confirmed, Inferred, or Not verified
-- **Coverage and confidence** so unknown data never becomes a fake zero
-- **Metrics calculator** for conversion rate, CTA CTR, CPL, and bounce rate
-
-## The 12-point audit
-
-| Criterion | Weight | Decision |
-|---|---:|---|
-| Objective, audience, and intent | 10 | Is there one conversion aligned with the visitor? |
-| Offer and value proposition | 15 | Is the exchange clear and worth it? |
-| Headline, benefits, and AIDA | 15 | Does the message move from attention to action? |
-| CTA, focus, and simplicity | 10 | Is one persuasive action dominant? |
-| Form and friction | 10 | Is the requested effort proportional? |
-| Proof and trust | 10 | Are important claims credibly supported? |
-| Visual hierarchy and UX | 10 | Does the interface guide the decision? |
-| Mobile and performance | 5 | Can relevant devices complete the flow? |
-| SEO and channel continuity | 5 | Does the page match the promise before the click? |
-| Privacy, domain, and security | 4 | Is the data exchange legitimate and transparent? |
-| Measurement | 3 | Can the conversion be measured reliably? |
-| Post-conversion delivery | 3 | Is the promise actually delivered? |
-
-## Example output
-
-```text
-Adherence score: 74.5/100 — medium confidence — 92% coverage
-Readiness: ready with corrections
-Biggest lever: clarify the offer before asking for company data.
-
-P1 — The form asks for six fields before proving value
-Evidence: company size and phone are required above the first proof block
-Impact: raises friction before trust is established
-Correction: move nonessential qualification to the next step
-Source: [S1 §5], [S3 form/checklist]
-```
-
-The skill does not promise conversion lift. It distinguishes historical examples, hypotheses, and observed results.
+- **Anti-fabrication** — no invented price, deadline, credential, or testimonial; absence is `Not verified`, never zero.
+- **Form clause** — every LP has a form connected to the right funnel (name + phone + email minimum).
+- **Gates before publication** — structural form, model rules, SEO, WCAG AA contrast, each blocking when applicable.
+- **Never promise lift** — historical examples, hypotheses, and observed results stay distinct.
 
 ## Install
 
@@ -69,6 +47,12 @@ git clone https://github.com/luisroquette/My_LP_Makes_Neil_Proud.git ~/.codex/sk
 ```
 
 Then ask:
+
+```text
+Use $my-lp-makes-neil-proud to create a landing page from https://example.com.
+```
+
+Or audit without creating:
 
 ```text
 Use $my-lp-makes-neil-proud to audit https://example.com without submitting the form.
@@ -86,35 +70,37 @@ Claude Code ignores the Codex-specific `agents/openai.yaml` file.
 
 Download the [ZIP archive](https://github.com/luisroquette/My_LP_Makes_Neil_Proud/archive/refs/heads/main.zip), extract it, rename the folder to `my-lp-makes-neil-proud`, and move it into your agent's skills directory.
 
-## How it works
-
-1. The agent identifies the page type, conversion objective, audience, traffic source, and offer.
-2. It inspects desktop and mobile without converting or changing the page.
-3. It scores each applicable criterion from 0 to 5 in 0.5 increments.
-4. `scripts/calculate_score.py` calculates score, coverage, and supplied metrics.
-5. The agent returns the evidence table, launch readiness, and prioritized fixes.
-
-## Safe by default
-
-The skill never submits a form, buys, publishes, or changes a page without explicit authorization. Missing analytics or integration access is labeled `Not verified`; it is never silently scored as failure.
-
-It also avoids universal CRO myths: there is no mandatory page length, video, button color, or exact number of form fields. Each choice is evaluated against traffic temperature, risk, offer, audience, and measurable results.
-
 ## Files
 
 ```text
-SKILL.md                    Agent workflow and output contract
-references/source-map.md    Traceability to the three source guides
-references/framework.md     Strategic principles and contextual rules
-references/rubric.md        Criteria, weights, scoring, and readiness
-references/metrics.md       Formulas and experimentation rules
-scripts/calculate_score.py  Deterministic score and metric calculator
-scripts/verify_sources.py   Optional SHA-256 source snapshot check
+SKILL.md                          Cycle orchestrator and output contracts
+references/briefing/              Stage 1: context and creator decisions
+references/criacao/               Stage 2: blueprint schema, 6 models, generation gates, copy profiles
+references/edicao/                Stage 3: Mini-Lovable commands and visual tokens
+references/auditoria/             Stage 4: 12-criterion rubric, framework, metrics (v1, intact)
+references/publicacao/            Stage 5: published-LP obligations + tracklink contract (pluggable)
+references/dashboard/             Dashboard contract (pluggable)
+references/versionamento.md       SemVer policy for the skill
+scripts/calculate_score.py        Deterministic score and metric calculator
+scripts/validar-blueprint.py      Deterministic blueprint form validator (no LLM)
+scripts/verify_sources.py         Optional SHA-256 source snapshot check
+examples/                         Example inputs for both scripts
+CHANGELOG.md                      Keep a Changelog
 ```
+
+The skill loads only `references/` and `scripts/` during execution. `docs/` holds internal specs and plans as an audit trail.
+
+## Versioning
+
+Versioned with [Semantic Versioning 2.0.0](https://semver.org/): MAJOR when the skill's contract changes, MINOR for new compatible stages or references, PATCH for corrections. Current release: **2.0.0** — the full cycle. v1.0.0 (audit only) remains tagged. See `references/versionamento.md` and `CHANGELOG.md`.
+
+## Safe by default
+
+The skill never submits a form, buys, publishes, or changes a page without explicit authorization. Missing analytics or integration access is labeled `Not verified`; it is never silently scored as failure. Generation never saves or publishes on its own — it always lands in a draft for human review.
 
 ## Sources
 
-The framework was derived from these Portuguese-language guides:
+The audit rubric was derived from these Portuguese-language guides:
 
 - [Landing Page: the beginner's guide](https://neilpatel.com/br/blog/landing-page/)
 - [The definitive guide to high-converting landing pages](https://neilpatel.com/br/blog/o-guia-definitivo-para-criar-landing-pages-super-convertedoras/)
@@ -124,4 +110,4 @@ The repository contains summaries and a source map, not copies of the original a
 
 ## License
 
-MIT. Use it, adapt it, and make landing-page reviews more accountable.
+MIT. Use it, adapt it, and make landing-page work accountable.
