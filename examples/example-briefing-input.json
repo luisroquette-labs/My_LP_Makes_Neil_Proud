@@ -1,0 +1,38 @@
+{
+  "slug": "ai-landing-pages-course",
+  "modelo": "curso",
+  "objetivo": "captura",
+  "headline": "Build landing pages that convert — with AI",
+  "subheadline": "A hands-on course for marketers and founders who want evidence-backed pages, not guesses.",
+  "publicoAlvo": "Marketers and founders running campaigns with paid traffic",
+  "beneficios": [
+    "Create a full landing page from a single URL or brief",
+    "Edit pages with natural-language commands",
+    "Audit any page against a 12-criterion conversion rubric"
+  ],
+  "cta": { "texto": "Start the free module" },
+  "tema": "claro",
+  "comprimento": "media",
+  "evergreen": true,
+  "riscoOferta": "medio",
+  "lgpd": { "consentimento": true },
+  "seo": {
+    "metaTitle": "AI Landing Pages Course — Build Pages That Convert",
+    "metaDescription": "Learn to create, edit, and audit high-converting landing pages with AI. Hands-on course for marketers and founders who want evidence, not guesses.",
+    "openGraph": {
+      "title": "AI Landing Pages Course",
+      "description": "Create, edit, and audit landing pages with AI."
+    }
+  },
+  "visual": {
+    "cores": {
+      "fundo": "#ffffff",
+      "texto": "#1a1a2e",
+      "destaque": "#4f46e5",
+      "acento": "#10b981"
+    },
+    "fonte": "Inter",
+    "raio": "12px",
+    "hero": "split"
+  }
+}
