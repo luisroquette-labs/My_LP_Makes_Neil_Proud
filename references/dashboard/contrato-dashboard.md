@@ -20,7 +20,7 @@ Defined by the tracklink repo (`references/nucleo/metricas.md` of My_UTMs_Make_M
 |---|---|
 | Issued LP list | all published LPs: slug, model, objetivo, status |
 | Clicks | clicks per LP over the selected period, by origin |
-| CPL | cost per lead: spend ÷ conversions, when spend data is connected |
+| CPL | cost per lead: attributable spend ÷ **valid leads** (see auditoria/metrics.md — conversions is a different metric), when spend data is connected |
 | Per-LP status | published / draft / needs review |
 
 ## Pluggable rules

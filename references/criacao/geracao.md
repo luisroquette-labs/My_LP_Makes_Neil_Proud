@@ -9,7 +9,8 @@ Two entry points produce a blueprint. Both land in a draft for human review — 
 1. Fetch the page safely (SSRF-guarded: allowlisted hosts, no private-network targets, no credentials).
 2. The LLM assembles the blueprint from the **real page content only**.
 3. **Anti-fabrication:** price, deadline, credential, or any claim not present in the source → omit the section. Never invent.
-4. Slug auto-suggested from the URL path, percent-decoded — `%C3%AD` must become `í`, never a literal hex slug.
+4. Slug auto-suggested from the URL path, percent-decoded — `%C3%AD` must become `í`, never a literal hex slug. An invalid percent-encoding (URIError on decodeURIComponent) fails the extraction, it never falls back to the raw hex.
+5. **SSRF redirects:** fetching follows redirects only if the allowlist/private-IP guard is re-run on every hop — otherwise redirects are not followed.
 
 ### From instruction (free text)
 

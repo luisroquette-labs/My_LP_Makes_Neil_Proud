@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 
+
+# local agent artifact — never track (leaks session id)
+.qlaude/

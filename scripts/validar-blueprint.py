@@ -66,6 +66,9 @@ def _valida_seo(seo):
         valor = seo.get(campo)
         if valor is not None and not isinstance(valor, str):
             errs.append(f"seo.{campo}: must be a string")
+    og = seo.get("openGraph")
+    if og is not None and not isinstance(og, dict):
+        errs.append("seo.openGraph: must be an object when present")
     return errs
 
 
@@ -77,8 +80,14 @@ def _valida_visual(visual):
             return ["visual.cores: must be an object"]
         for campo in ("fundo", "texto", "destaque", "acento"):
             valor = cores.get(campo)
-            if valor is not None and not isinstance(valor, str):
-                errs.append(f"visual.cores.{campo}: must be a string")
+            if valor is not None and not isinstance(valor, str) or valor == "":
+                errs.append(f"visual.cores.{campo}: must be a non-empty string")
+    hero = visual.get("hero")
+    # fiel ao tipo real ArranjoHero (lib/motor-lp/blueprint.ts do cfgauss-site)
+    HERO_ALLOWLIST = {"imagem-esquerda", "imagem-fundo", "sem-imagem-centralizado", "video-fundo"}
+    if hero is not None:
+        if not isinstance(hero, str) or hero not in HERO_ALLOWLIST:
+            errs.append(f"visual.hero: must be one of {sorted(HERO_ALLOWLIST)} when present")
     return errs
 
 
@@ -94,6 +103,18 @@ def validar(blueprint):
         valor = blueprint.get(campo)
         if not isinstance(valor, str) or not valor.strip():
             errs.append(f"{campo}: required non-empty string")
+
+    slug = blueprint.get("slug")
+    if isinstance(slug, str) and (
+        slug != slug.strip()
+        or slug.lower() != slug
+        or "%" in slug
+        or "/" in slug
+        or "\\" in slug
+        or ".." in slug
+        or any(ord(c) < 32 for c in slug)
+    ):
+        errs.append("slug: must be lowercase, no %-encoding, no slashes, no '..', no spaces, no control chars")
 
     if blueprint.get("modelo") not in MODELOS:
         errs.append(f"modelo: must be one of {sorted(MODELOS)}")
@@ -121,6 +142,13 @@ def validar(blueprint):
         errs.append("lgpd: must be an object with consentimento: true")
 
     # Per-model object: form checks only (mirrors validar-estrutura).
+    # A model object whose key does not match the declared model is a form
+    # error — "wrong or missing object is a form error" (blueprint.md).
+    OBJETOS_DE_MODELO = {"evento", "captura", "lancamento"}
+    for chave_objeto in OBJETOS_DE_MODELO:
+        if chave_objeto in blueprint and blueprint.get("modelo") != chave_objeto:
+            errs.append(f"{chave_objeto}: object present but modelo is '{blueprint.get('modelo')}'")
+
     modelo = blueprint.get("modelo")
     if modelo == "evento":
         evento = blueprint.get("evento")
@@ -155,6 +183,8 @@ def validar(blueprint):
                     if not isinstance(recompensa.get(campo), str):
                         errs.append(f"captura.recompensa.{campo}: must be a string")
             errs += _is_lista_de_strings(captura.get("entregaveis"), "captura.entregaveis")
+            if captura.get("imagemRecompensa") is not None and not isinstance(captura.get("imagemRecompensa"), str):
+                errs.append("captura.imagemRecompensa: must be a string when present")
 
     elif modelo == "lancamento":
         lancamento = blueprint.get("lancamento")
@@ -165,6 +195,21 @@ def validar(blueprint):
                 errs.append("lancamento.nomeProduto: required non-empty string")
             if not isinstance(lancamento.get("dataLancamento"), str) or not _parse_iso(lancamento.get("dataLancamento")):
                 errs.append("lancamento.dataLancamento: required parseable ISO date")
+            if lancamento.get("teaser") is not None and not isinstance(lancamento.get("teaser"), str):
+                errs.append("lancamento.teaser: must be a string when present")
+
+    thankYou = blueprint.get("thankYou")
+    if thankYou is not None:
+        if not isinstance(thankYou, dict):
+            errs.append("thankYou: must be an object when present")
+        elif thankYou.get("slug") is not None and not isinstance(thankYou.get("slug"), str):
+            errs.append("thankYou.slug: must be a string when present")
+    rastreamento = blueprint.get("rastreamento")
+    if rastreamento is not None:
+        if not isinstance(rastreamento, dict):
+            errs.append("rastreamento: must be an object when present")
+        elif rastreamento.get("ga4") is not None and not isinstance(rastreamento.get("ga4"), str):
+            errs.append("rastreamento.ga4: must be a string when present")
 
     # Optional sections: absent is OK (omitted, not zero), wrong shape is not.
     if blueprint.get("seo") is not None:

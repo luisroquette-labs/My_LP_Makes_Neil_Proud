@@ -30,15 +30,16 @@ def main() -> None:
     args = parser.parse_args()
 
     result = {}
-    mismatch = False
+    falhou = False
     for filename, expected in EXPECTED.items():
         path = args.source_dir / filename
         if not path.is_file():
+            falhou = True
             result[filename] = {"status": "missing", "expected_sha256": expected}
             continue
         actual = digest(path)
         status = "match" if actual == expected else "mismatch"
-        mismatch = mismatch or status == "mismatch"
+        falhou = falhou or status == "mismatch"
         result[filename] = {
             "status": status,
             "expected_sha256": expected,
@@ -46,7 +47,7 @@ def main() -> None:
         }
 
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    raise SystemExit(1 if mismatch else 0)
+    raise SystemExit(1 if falhou else 0)
 
 
 if __name__ == "__main__":

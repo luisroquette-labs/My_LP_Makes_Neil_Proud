@@ -68,7 +68,7 @@ Exactly one of the following objects applies, matching `modelo`. Wrong or missin
   "cores": { "fundo": "#hex", "texto": "#hex", "destaque": "#hex", "acento": "#hex" },
   "fonte": "string",
   "raio": "string",
-  "hero": "arranjo do hero — até 4 opções"
+  "hero": "arranjo do hero — allowlist (fiel ao ArranjoHero real): 'imagem-esquerda', 'imagem-fundo', 'sem-imagem-centralizado', 'video-fundo'"
 }
 ```
 

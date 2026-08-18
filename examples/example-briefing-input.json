@@ -29,10 +29,10 @@
       "fundo": "#ffffff",
       "texto": "#1a1a2e",
       "destaque": "#4f46e5",
-      "acento": "#10b981"
+      "acento": "#047857"
     },
     "fonte": "Inter",
     "raio": "12px",
-    "hero": "split"
+    "hero": "imagem-esquerda"
   }
 }

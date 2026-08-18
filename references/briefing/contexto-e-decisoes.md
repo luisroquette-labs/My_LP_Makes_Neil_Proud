@@ -11,7 +11,7 @@ Two entry points:
 
 ## URL extraction
 
-1. **Fetch safely.** SSRF-guarded fetching only: allowlisted public hosts, no private-network targets, no credentials in the URL, size/time limits. A page that cannot be fetched safely fails the extraction — it never falls back to guessing.
+1. **Fetch safely.** SSRF-guarded fetching only: allowlisted public hosts, no private-network targets, no credentials in the URL, size/time limits. **Redirects: either re-validate the allowlist on EVERY hop, or do not follow redirects at all** — a page that 302-redirects to a private IP would otherwise bypass the guard. A page that cannot be fetched safely fails the extraction — it never falls back to guessing.
 2. **Extract only what exists.** Price, deadline, credentials, or any claim not present in the real page → omit the section entirely. Anti-fabrication is the highest rule of extraction: a missing price is a missing price, not an estimated one.
 3. **Suggest the slug from the URL path**, percent-decoded. `%C3%AD` must become `í` — a slug with literal hex escapes is a real bug (production confirmed). The creator can override.
 4. **Output is a draft only.** Extraction fills the blueprint for human review. It never saves, never publishes, and never marks anything as published.
