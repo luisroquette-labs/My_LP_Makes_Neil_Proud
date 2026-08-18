@@ -32,6 +32,14 @@
 - [Características](#características)
 - [Os seis modelos, em profundidade](#os-seis-modelos-em-profundidade)
 - [Os quatro gates, em profundidade](#os-quatro-gates-em-profundidade)
+- [A auditoria, critério por critério](#a-auditoria-critério-por-critério)
+- [Extração de URL e briefing, em profundidade](#extração-de-url-e-briefing-em-profundidade)
+- [Edição e publicação, em profundidade](#edição-e-publicação-em-profundidade)
+- [Roadmap do ecossistema](#roadmap-do-ecossistema)
+- [Lições do motor de referência](#lições-do-motor-de-referência)
+- [Perguntas frequentes — a edição estendida](#perguntas-frequentes--a-edição-estendida)
+- [Por que determinístico importa](#por-que-determinístico-importa)
+- [A árvore de referências completa](#a-árvore-de-referências-completa)
 - [As decisões que moldaram este repo](#as-decisões-que-moldaram-este-repo)
 - [Em comparação com ferramentas manuais / de agência / comerciais](#em-comparação-com-ferramentas-manuais--de-agência--comerciais)
 - [Casos de uso](#casos-de-uso)
@@ -230,6 +238,158 @@ Generated visual tokens are validated for contrast **before** anything goes live
 ### Gate 4 — SEO
 
 `metaTitle` 30-65 chars, `metaDescription` 120-160 — blocking only for evergreen pages. Regeneration is a single retry, not a loop, because text converges fast. JSON-LD ships `Course` with pricing when the page has pricing, `WebPage` otherwise — and the schema is escaped, because content extracted from arbitrary URLs is not trusted input.
+
+---
+
+## A auditoria, critério por critério
+
+`references/auditoria/` defines a 12-criterion conversion rubric derived from three Neil Patel landing-page guides. The scorer (`scripts/calculate_score.py`) implements it deterministically. Each criterion below states what it checks, why it matters, and how the score moves.
+
+1. **Clareza da promessa (clarity)** — does the headline state what the visitor gets, without jargon? A headline that requires reading the body to be understood fails. This is the highest-weighted criterion: confusion above the fold costs more than any copy mistake below it.
+2. **Congruência entre headline e oferta (congruence)** — does the rest of the page argue the promise the headline made? A headline about speed followed by copy about price is a bait-and-switch; the rubric calls it.
+3. **Especificidade (specificity)** — are claims concrete (numbers, names, dates) or vague ("melhor", "rápido")? Vague claims score low even when true, because they cannot be believed.
+4. **Prova (proof)** — testimonials, credentials, numbers with sources. The scorer counts what exists; it does not weigh quality, because quality is the auditor's judgment, not the machine's.
+5. **Atrito (friction)** — how many fields, how many steps, how much risk the visitor must accept to convert. The capture form contract (three fields) is the reference point.
+6. **Urgência legítima (urgency)** — real deadlines and real scarcity score; fabricated ones do not exist in a blueprint at all, because the anti-fabrication gate removes them before the audit runs.
+7. **CTA visível e único (CTA)** — one clear action above and below the fold, stating the outcome, not the mechanism.
+8. **Estrutura por modelo (model fit)** — the page delivers the job of its model: an event page shows date/venue/RSVP; a capture page puts the form in the hero; a squeeze is one screen plus the legal strip.
+9. **SEO de página (SEO)** — title/description within the evergreen bounds, structured data present where the model demands it.
+10. **Contraste e legibilidade (contrast)** — the visual tokens pass WCAG AA; text over painted backgrounds is actually legible.
+11. **LGPD e consentimento (compliance)** — the consent checkbox exists and is required; the privacy reference is present.
+12. **Consistência de tom (tone)** — the page reads as one voice, not a patchwork of sections.
+
+The scorer normalizes each criterion to the rubric's weights, tolerates explicit `null` as missing (never as zero), and falls back through field aliases so two implementations feeding the same audit produce the same score. The audit output is the deliverable: a score, a verdict per criterion, and the specific findings that explain each verdict.
+
+---
+
+## Extração de URL e briefing, em profundidade
+
+### URL extraction — the page that already exists
+
+1. **Fetch safely.** SSRF-guarded fetching only: allowlisted public hosts, no private-network targets, no credentials, size and time limits. **Redirects re-validate the allowlist on every hop — or are not followed at all.** A page that cannot be fetched safely fails the extraction; it never falls back to guessing.
+2. **Extract only what exists.** Price, deadline, credential or any claim not present in the real page → omit the section. A missing price is a missing price.
+3. **Suggest the slug from the URL path, percent-decoded.** `%C3%AD` must become `í` — a literal-hex slug was a real production bug, and an invalid percent-encoding fails the extraction rather than falling back to the raw hex.
+4. **Output is a draft only.** Extraction fills the blueprint for human review. It never saves, never publishes, never marks anything as published.
+
+### The brief — context and five decisions
+
+A brief in natural language: offer, audience, model, goal. Anything the instruction does not state is omitted. Above the JSON sit the **five quick decisions** — objective (captura/venda), evergreen (bool), theme (claro/escuro), length (curta/media/longa), offer risk (baixo/medio/alto). They are selects because they are decisions of the person creating the page — not facts extractable from a source — and burying them in JSON is how the reference engine's creators got stuck.
+
+The distinction matters in the cycle: **context is extracted; decisions are chosen.** The engine never infers a decision the creator did not make, and it never asks for a fact the source already contains.
+
+---
+
+## Edição e publicação, em profundidade
+
+### Mini-lovable — edit by command, not by JSON
+
+Editing happens by section path (`hero`, `prova`, `preço`, `faq`) — never by raw JSON paths. The `secaoHero` resolver maps "hero" correctly for every model, including one-screen models where the hero is the whole page. Commands operate on named sections; the engine applies them to the right place in the blueprint regardless of model. Visual tokens (colors, fonts, radius, hero arrangement) are also editable by command, and every edit is validated by the same gates that will judge the final page — an edit that breaks contrast is refused at edit time, not discovered at publish time.
+
+### Publication — the gate that cannot be bypassed
+
+The publication action runs the validators **before any write**. A draft can be incomplete — that is what drafts are for. A page cannot be published while failing structure, rules, contrast or SEO gates. Archiving is a status change (`completed`-like semantics), never a delete — the historical series of pages survives. And because every CTA ships as a tracking link under the tracklink contract, publishing a page is also publishing its attribution: the lead's first click is recorded from the moment the page is live.
+
+---
+
+## Roadmap do ecossistema
+
+**Now — consolidation.** The three sibling skills are published and interoperating: the LP produces tracked links and leads, the email engine nurtures, the tracking layer attributes.
+
+**Next — the unified dashboard.** The dashboard contract (`references/dashboard/`) and the metrics contract in the tracking skill meet in one screen: pages by model and status, clicks by origin, audit scores per page.
+
+**Then — new page models and channels.** Each new model follows the documented checklist (the 16-point checklist distilled from the reference motor's own expansion history); each new channel arrives as a directory in the tracking skill's `integracoes/`.
+
+**Later — the knowledge graph.** Contracts, models and gates become a graph corpus, so "which gate covers which model" is a query, not a memory.
+
+---
+
+## Lições do motor de referência
+
+The reference engine behind this skill shipped six models into production, and each expansion taught something that is now part of the repo's DNA. These are the lessons — not as lore, but as the reason specific rules exist:
+
+**The 16-point checklist.** Adding a model to the reference engine touched sixteen integration points — and the first expansion plan covered eight of them, leaving four `=== "curso"` allowlists that silently killed the new model in the admin guard, the autosave, the AI planner and the contrast check. The checklist is now part of the creation reference: before writing a new model, grep for the hardcoded model checks first.
+
+**Components that receive only the model object lose the universal fields.** The event hero received `{ evento, cta }` instead of the blueprint — so the subheadline, a cornerstone field, was never rendered on any published event page, and no test noticed, because every test verified only what the component received. The rule that followed: model components receive the blueprint, never just the model object.
+
+**Validated-but-never-rendered is the default failure mode.** Generated visual tokens passed contrast validation and were never applied — the hero kept fixed Tailwind classes. The fix wave applied them, and the re-review found the `.dark` class still following the stored theme instead of the painted background. Two findings, same class: something exists in the data and validation layers but never reaches the pixel. That is why the audit rubric includes a model-fit criterion that checks what is actually rendered.
+
+**XSS is composed of two "safe" findings.** A schema was serialized into `dangerouslySetInnerHTML` without escaping `<` — fine while content was hand-written, fatal the day content came from extracted arbitrary URLs. The publication gates now treat extracted content as untrusted input, period.
+
+**The consent checkbox must exist in the UI and the validator.** The validator demanded LGPD consent while the form never rendered the checkbox — a legal exposure found in whole-branch review. The rule: anything a gate requires must be reachable by the person who fills the form.
+
+**Whole-branch review finds what per-task checks miss.** The reference motor's history repeats it: the final review of the whole branch catches integration-level failures that every per-task review passes. That is why this repo's contribution bar pins every bug class as a regression case — the review finds it once, the case guards it forever.
+
+---
+
+## Perguntas frequentes — a edição estendida
+
+**How does the engine know which model to use?** Strong signals in the brief trigger models in order: explicit mention wins over heuristics, and heuristics are order-sensitive (course beats capture; event beats both for webinar-shaped briefs). When nothing signals, universal is the honest fallback.
+
+**Can I run the audit without publishing?** Yes — the audit is a stage of its own. The scorer runs on the audit JSON and produces the verdict per criterion. Publication runs the gates again, on the final blueprint, before any write.
+
+**What is the difference between the structure gate and the rule gates?** The structure gate checks *form* — every field is the right type, every array element is a string, the slug has no illegal characters, the model object matches the model. The rule gates check *content* — model contracts, contrast, SEO. Form first, always: a malformed blueprint must produce a blocking error, never a raw TypeError.
+
+**Why does the capture form require three fields?** Because the commercial contract behind the reference system captures name, phone and email. "Email only" is the market's squeeze pattern, not this business's contract. Changing it is a pétrea-clause decision.
+
+**What happens if the extraction source is unreachable?** The extraction fails and the cycle asks for a brief instead. It never falls back to guessing — anti-fabrication applies to missing sources as much as to missing prices.
+
+**Does the engine support A/B variants?** The engine produces one audited blueprint per brief. Variants are separate briefs with separate blueprints — same cycle, no special mode. What the dashboard contract then compares across pages is their audit scores and their tracked clicks.
+
+**What does "evergreen" change?** Evergreen pages get the blocking SEO gate (title and description bounds). Campaign pages with a defined lifespan keep looser SEO — the page will not be crawled forever, so the stricter bounds would be theater.
+
+**Can the validators run in CI?** Yes — all three are single-file Python with zero dependencies. Exit 0 = pass, exit 1 = fail with the findings on stdout.
+
+**What is the success bar for this repo?** The name says it: the pages make Neil proud — evidence-backed, gate-passing, tracked, and auditable. Concretely: when the quarterly report runs, every page states its model, its audit score and its attribution, and every claim traces to a source. If a claim cannot trace to a source, the engine failed its highest rule.
+
+---
+
+## Por que determinístico importa
+
+An LLM can draft a landing page in thirty seconds. The problem was never drafting — it is *trusting* the draft. A page assembled by a model is a plausible text; whether it obeys the contracts, carries real claims, passes contrast and respects the funnel's attribution is a separate question that no amount of prompt wording answers reliably.
+
+Determinism answers it. The validators are plain Python with no LLM calls: same input, same verdict, forever. The gates run the same checks in the editor's CI and in the publication action. The audit scorer produces the same score for the same findings, whether you run it today or in six months, on your machine or in a pipeline. When a page passes, it passes *by construction* — not by persuasion.
+
+That is the difference between this skill and "prompt an LLM to write a page". The LLM writes; the machine verifies; the two never trade places. A system where the same model both writes and grades is a system where a persuasive mistake passes. Here, the grader has no opinions — it has rules, and every rule has a regression case.
+
+---
+
+## A árvore de referências completa
+
+Every contract in the repository, in one place:
+
+```
+references/
+├── briefing/
+│   ├── contexto-e-decisoes.md    o brief: contexto extraído vs. 5 decisões escolhidas
+│   └── (formato do brief)        o que o criador informa, o que o motor nunca infere
+├── criacao/
+│   ├── blueprint.md              os ~20 campos universais + seções opcionais + hero
+│   ├── modelos.md                os 6 modelos e seus objetos dedicados
+│   ├── geracao.md                extração de URL e geração por instrução
+│   └── perfis-copy.md            direções de copy por objetivo e risco
+├── edicao/
+│   └── mini-lovable.md           edição por comando, seção path, tokens visuais
+├── auditoria/
+│   ├── rubrica.md                12 critérios com pesos e vereditos
+│   └── metrics.md                as métricas que o dashboard consome
+├── publicacao/
+│   └── (gate + arquivamento)     validação antes da escrita, nunca apagar
+├── dashboard/
+│   └── contrato-dashboard.md     o contrato plugável da dashboard
+└── integracoes/
+    └── (plug tracklink)          o contrato de rastreamento referenciado
+scripts/
+├── validar-blueprint.py          gate de estrutura (forma, campo a campo)
+├── calculate_score.py            rubrica com fallbacks de aliases e null explícito
+└── verify_sources.py             verificação de snapshots de fontes
+examples/
+├── example-briefing-input.json   blueprint canônico (passa todos os gates)
+└── example-audit-input.json      entrada canônica de auditoria
+agents/
+└── openai.yaml                   loader Codex
+```
+
+If you are implementing the engine in another stack, this tree is the specification: implement each contract as written, run the validators against your implementation, and the two engines will produce the same verdicts on the same inputs.
 
 ---
 
