@@ -81,7 +81,7 @@ This skill exists for people who have learned that a landing page is a sales arg
 
 **Developers integrating pages into a marketing system.** The page is not the end of the funnel — it is the entry point. The pluggable tracklink contract means the page's CTAs are tracked links, the lead records first-click attribution, and the email engine picks the lead up from there. One system, three repositories, one contract.
 
-If you ship one page a year, this is overkill. This skill earns its weight when pages are a recurring product of your marketing operation.
+If you ship one page a year, this is overkill. This skill earns its weight when pages are a recurring product of your marketing operation — when the question stops being "can we build a page" and becomes "can we prove every page we ship is doing its job", the cycle and its gates are the answer.
 
 ---
 
