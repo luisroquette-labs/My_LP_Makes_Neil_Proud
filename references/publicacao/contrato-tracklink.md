@@ -13,23 +13,25 @@ Before an LP is published, verify all of these. They hold on any host, with or w
 5. **Thank-you page.** The thank-you LP exists, is published, and is pointed at from the main LP's `thankYou.slug`. An orphaned thank-you breaks the conversion journey of every lead.
 6. **Sitemap.** `/lp/*` routes are listed in the sitemap. A sitemap failure must never take the site down (fail-safe listing).
 
-## (b) Tracklink system contract — PLUGGABLE
+## (b) Tracklink system contract — implemented
 
-**Status: awaiting the tracklink repository.** When it ships, it fills this contract; this skill does not get rewritten.
+**Implemented by [My_UTMs_Make_Me_Proud](https://github.com/luisroquette/My_UTMs_Make_Me_Proud) (v1.0.0) — the tracking layer of the marketing suite.** Its `references/integracoes/lp.md` is the source of truth for this integration; its `references/nucleo/` holds the portable tracking cycle (creation, click, attribution, health, metrics). This reference summarizes the contract — when they disagree, the tracklink repo wins.
 
-The tracklink system must provide:
+The tracklink system provides:
 
 | Obligation | Details |
 |---|---|
 | Slug ↔ destination mapping | Every tracking link resolves a short code to the LP's canonical URL (`destination_url`). |
-| Parameter passthrough | UTM and origin parameters survive the redirect and reach the LP's tracking. |
+| Tracked destination | The link resolves to destination + UTMs (`tracked_destination_url`) — the visitor lands on the LP with attribution parameters already in the URL. |
 | Thank-you mapping | Each main LP maps to its thank-you destination; conversions are counted through it. |
-| Atomic slug rename | When an LP slug changes, tracking destinations update in the same operation as the slug (see (a).1). |
+| Atomic bundle | LP + campaign + tracking link are written in one transaction; collisions are named errors, never silent overwrites. |
+| Slug rename propagation | The tracking system has **no automatic rename trigger** (documented absence). Whoever renames an LP slug updates its tracking destinations in the same atomic operation (see (a).1); consistency is also re-established on the next bundle save. |
 | Pluggable interface | The LP side integrates through a single configuration point — the LP itself has no knowledge of the tracklink implementation. |
 
-### How to plug it in (future)
+**Recommended, not mandatory.** In portable mode (no tracking system), an LP still publishes — the (a) obligations hold and tracking is simply absent. When both systems exist, apply the production standard: no LP goes live untracked.
 
-1. The tracklink repo implements the table above.
-2. This reference gains an "Implemented by" section naming the repo and its config location.
-3. The dashboard contract (`../dashboard/contrato-dashboard.md`) starts consuming the metrics the tracklink exposes.
-4. Nothing else in this skill changes.
+### How the plug works
+
+1. The tracklink repo (`references/integracoes/lp.md`) defines the integration contract — it is the source of truth.
+2. The dashboard contract (`../dashboard/contrato-dashboard.md`) consumes the metrics the tracklink exposes (`references/nucleo/metricas.md`).
+3. Nothing else in this skill changes.

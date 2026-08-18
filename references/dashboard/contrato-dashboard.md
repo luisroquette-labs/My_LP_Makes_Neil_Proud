@@ -1,17 +1,18 @@
 # Dashboard Contract — PLUGGABLE
 
-**Status: implementation out of scope for v2.0.0.** This reference defines the contract only. The dashboard plugs in together with the tracklink repository, in the phase where the systems are graphed and concatenated.
+**Status: the exposure contract now exists.** [My_UTMs_Make_Me_Proud](https://github.com/luisroquette/My_UTMs_Make_Me_Proud) (v1.0.0) shipped, and its `references/nucleo/metricas.md` defines what the tracking system exposes. The dashboard implementation itself remains out of scope for this repo — it plugs into that contract.
 
 ## What the tracklink system exposes
 
-The dashboard consumes nothing until the tracklink system provides:
+Defined by the tracklink repo (`references/nucleo/metricas.md` of My_UTMs_Make_Me_Proud):
 
 | Metric | Granularity |
 |---|---|
-| Clicks per LP | by slug, by day |
-| Origin / channel | UTM source, medium, campaign |
-| Period | any date range |
-| Conversions | leads that reached the thank-you page after a tracked click |
+| Clicks per link | by slug, by day (daily aggregate + granular events) |
+| Origin / channel | UTM source/medium/campaign, snapshot at click time |
+| Period | 7/30/90 days, calendar-filled series — absence is never zero |
+| Conversions | first/last click ids recorded at lead forms and checkouts |
+| Link status | active / paused / expired / broken (health columns) |
 
 ## What the dashboard consumes
 
@@ -30,7 +31,7 @@ The dashboard consumes nothing until the tracklink system provides:
 
 ## How to plug it in (future)
 
-1. Tracklink repo ships and implements its contract.
+1. ✅ Tracklink repo shipped (v1.0.0): My_UTMs_Make_Me_Proud — the exposure contract lives in its `references/nucleo/metricas.md`.
 2. The dashboard consumes the exposed metrics.
 3. This reference gains an "Implemented by" section pointing at the dashboard implementation.
 4. The publication stage's verification grows one item: every published LP appears in the dashboard with its tracking attached.

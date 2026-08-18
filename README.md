@@ -16,9 +16,9 @@ Create a landing page from a URL or a brief in one of six strategies, edit it wi
 | 2. Creation | Builds the blueprint for one of 6 LP models, gated in cascade: form → model → SEO → WCAG contrast | `references/criacao/` |
 | 3. Editing (Mini-Lovable) | Applies free-text commands surgically by section path, with an autosaved edit brief | `references/edicao/` |
 | 4. Audit | Scores the page 0–100 on 12 weighted criteria, readiness, P0/P1/P2 fixes with evidence | `references/auditoria/` |
-| 5. Publication | Verifies the published-LP obligations and connects the tracklink system by contract | `references/publicacao/` |
+| 5. Publication | Verifies the published-LP obligations and connects [My_UTMs_Make_Me_Proud](https://github.com/luisroquette/My_UTMs_Make_Me_Proud) by contract (recommended standard) | `references/publicacao/` |
 
-The dashboard of issued LPs is defined as a pluggable contract (`references/dashboard/`) — implementation arrives together with the tracklink repository.
+The dashboard of issued LPs is defined as a pluggable contract (`references/dashboard/`) that now consumes the exposure contract shipped in [My_UTMs_Make_Me_Proud](https://github.com/luisroquette/My_UTMs_Make_Me_Proud) (`nucleo/metricas.md`) — the dashboard implementation still arrives with the dashboard itself.
 
 ## Why it holds up
 
@@ -92,7 +92,7 @@ The skill loads only `references/` and `scripts/` during execution. `docs/` hold
 
 ## Versioning
 
-Versioned with [Semantic Versioning 2.0.0](https://semver.org/): MAJOR when the skill's contract changes, MINOR for new compatible stages or references, PATCH for corrections. Current release: **2.0.0** — the full cycle. v1.0.0 (audit only) remains tagged. See `references/versionamento.md` and `CHANGELOG.md`.
+Versioned with [Semantic Versioning 2.0.0](https://semver.org/): MAJOR when the skill's contract changes, MINOR for new compatible stages or references, PATCH for corrections. Current release: **2.1.0** — the tracklink contract implemented by [My_UTMs_Make_Me_Proud](https://github.com/luisroquette/My_UTMs_Make_Me_Proud) v1.0.0. v1.0.0 (audit only) remains tagged. See `references/versionamento.md` and `CHANGELOG.md`.
 
 ## Safe by default
 

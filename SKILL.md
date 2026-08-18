@@ -90,7 +90,7 @@ Load `references/publicacao/contrato-tracklink.md`.
 5. Thank-you page exists, published, and pointed at from `thankYou.slug`.
 6. `/lp/*` routes listed in the sitemap, fail-safe.
 
-The tracklink half (b) is pluggable: consult the contract, connect the repository when it ships, and change nothing else in this skill.
+The tracklink half (b) is implemented by My_UTMs_Make_Me_Proud (v1.0.0) as the recommended standard — consult the contract; when they disagree, the tracklink repo wins. Portable mode (no tracking system) still publishes: the (a) obligations hold, tracking is absent.
 
 ## Versioning
 

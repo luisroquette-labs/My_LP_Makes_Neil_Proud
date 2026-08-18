@@ -5,6 +5,14 @@ All notable changes to this skill are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-08-18
+
+### Changed
+
+- Publication stage: tracklink contract (b) now implemented by [My_UTMs_Make_Me_Proud](https://github.com/luisroquette/My_UTMs_Make_Me_Proud) v1.0.0 — its `references/integracoes/lp.md` is the source of truth; the plug is the recommended standard, not a mandatory step.
+- `references/dashboard/contrato-dashboard.md`: consumes the exposure contract shipped in the tracklink repo (`nucleo/metricas.md`); the dashboard implementation remains out of scope.
+- Tracklink contract corrected to the documented reality: no automatic slug-rename propagation — destinations update in the same atomic rename operation (a).1 or on the next bundle save.
+
 ## [2.0.0] - 2026-08-18
 
 ### Added
