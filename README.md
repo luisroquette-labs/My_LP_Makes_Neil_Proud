@@ -632,7 +632,7 @@ MIT — see [LICENSE](./LICENSE).
 
 A landing page is the one asset in marketing that must do everything at once: argue the offer, earn the click, capture the lead, and — in this system — carry the attribution that tells you which channel the lead came from. Most page tooling treats the page as the end product. This engine treats it as the entry point of a funnel that two other skills continue.
 
-That is the standard the name sets. A page that converts but cannot say where its leads came from, or whose claims evaporate when you ask for the source, is a page that got lucky. This engine removes the luck: the brief that scopes the page, the models that give each job its structure, the gates that refuse what fails, the audit that scores what shipped, and the tracking contract that attributes what it earned. If the page makes Neil proud, it made the funnel work — and the funnel is the product.
+That is the standard the name sets. A page that converts but cannot say where its leads came from, or whose claims evaporate when you ask for the source, is a page that got lucky. This engine removes the luck: the brief that scopes the page, the models that give each job its structure, the gates that refuse what fails, the audit that scores what shipped, and the tracking contract that attributes what it earned. If the page makes Neil proud, it made the funnel work — and the funnel is the product, run by the same discipline that built the page: evidence first, gates always, luck never.
 
 ---
 
