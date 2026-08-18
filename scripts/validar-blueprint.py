@@ -107,6 +107,7 @@ def validar(blueprint):
     slug = blueprint.get("slug")
     if isinstance(slug, str) and (
         slug != slug.strip()
+        or any(ch.isspace() for ch in slug)
         or slug.lower() != slug
         or "%" in slug
         or "/" in slug
@@ -144,7 +145,7 @@ def validar(blueprint):
     # Per-model object: form checks only (mirrors validar-estrutura).
     # A model object whose key does not match the declared model is a form
     # error — "wrong or missing object is a form error" (blueprint.md).
-    OBJETOS_DE_MODELO = {"evento", "captura", "lancamento"}
+    OBJETOS_DE_MODELO = {"curso", "evento", "captura", "lancamento"}
     for chave_objeto in OBJETOS_DE_MODELO:
         if chave_objeto in blueprint and blueprint.get("modelo") != chave_objeto:
             errs.append(f"{chave_objeto}: object present but modelo is '{blueprint.get('modelo')}'")

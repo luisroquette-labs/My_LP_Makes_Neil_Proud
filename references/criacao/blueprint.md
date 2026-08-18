@@ -68,7 +68,7 @@ Exactly one of the following objects applies, matching `modelo`. Wrong or missin
   "cores": { "fundo": "#hex", "texto": "#hex", "destaque": "#hex", "acento": "#hex" },
   "fonte": "string",
   "raio": "string",
-  "hero": "arranjo do hero — allowlist (fiel ao ArranjoHero real): 'imagem-esquerda', 'imagem-fundo', 'sem-imagem-centralizado', 'video-fundo'"
+  "hero": "arranjo do hero — allowlist (fiel ao ArranjoHero real): 'imagem-esquerda', 'imagem-fundo', 'sem-imagem-centralizado', 'video-fundo'. Fidelidade: o motor real guarda `hero: { arranjo: ... }`; este port achata o objeto para a string do arranjo — converter na integração."
 }
 ```
 
