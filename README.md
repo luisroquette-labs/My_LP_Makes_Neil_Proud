@@ -18,6 +18,12 @@
   <img alt="v2.1.0" src="https://img.shields.io/badge/version-v2.1.0-D5A62E.svg">
 </p>
 
+
+<p align="center">
+  <video src="assets/demo.mp4" autoplay muted loop playsinline width="640"></video><br>
+  <sub>The engine, animated — five sections assembling into one landing page</sub>
+</p>
+
 > **Independent project:** My_LP_Makes_Neil_Proud is not affiliated with, endorsed by, or sponsored by Neil Patel, NP Digital, or their companies. It implements established direct-response publishing patterns — never third-party copy, trademarks, or claims.
 
 ---
