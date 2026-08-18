@@ -40,6 +40,7 @@
 - [Perguntas frequentes — a edição estendida](#perguntas-frequentes--a-edição-estendida)
 - [Por que determinístico importa](#por-que-determinístico-importa)
 - [A árvore de referências completa](#a-árvore-de-referências-completa)
+- [O formulário de captura — a cláusula pétrea](#o-formulário-de-captura--a-cláusula-pétrea)
 - [As decisões que moldaram este repo](#as-decisões-que-moldaram-este-repo)
 - [Em comparação com ferramentas manuais / de agência / comerciais](#em-comparação-com-ferramentas-manuais--de-agência--comerciais)
 - [Casos de uso](#casos-de-uso)
@@ -390,6 +391,18 @@ agents/
 ```
 
 If you are implementing the engine in another stack, this tree is the specification: implement each contract as written, run the validators against your implementation, and the two engines will produce the same verdicts on the same inputs.
+
+---
+
+## O formulário de captura — a cláusula pétrea
+
+One clause in this repository is deliberately hard to change: **the capture form has three fields — name, phone and email — and no model may reduce them.** It is called a pétrea clause because the reference business's commercial contract depends on it, and because "email only" — the squeeze pattern the market loves — quietly changes what a lead *is*.
+
+Why it matters, stated plainly: a lead without a phone is a lead sales cannot call. The funnel after this engine — the email engine, the WhatsApp flow, the sales follow-up — is built around a lead that can be reached by phone. A page that captures only email produces a different asset, and downstream, that difference becomes a pipeline gap nobody notices until the quarterly report. The clause exists so the pipeline gap cannot be introduced by a template change.
+
+The clause appears in the capture model contract, in the squeeze contract (one screen, three fields, legal strip), and in the structure gate — a blueprint that renders a two-field form fails validation. Reverting it requires owner approval, in writing, in the repository. That is what a pétrea clause means here: not tradition, but a commercial constraint made explicit and enforced by the same gates that enforce everything else.
+
+The same principle extends to the other contracts the business depends on: the LGPD consent checkbox, the query-free destinations of the tracking links, the calendar-filled metric windows. When a rule exists because a downstream system depends on it, the rule is written down, gated, and named — so nobody removes it thinking it was decorative.
 
 ---
 
