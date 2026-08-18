@@ -34,7 +34,7 @@ Every blueprint passes these gates in order. A blocking failure stops the flow.
 | 1 | `validar-estrutura` | JSON **form**, field by field, array element by array | always |
 | 2 | `validar-<modelo>` | model rules (object presence, enum values, layout contract) | always |
 | 3 | `validar-seo` | `metaTitle` 30–65 chars, `metaDescription` 120–160 | only when `evergreen: true` |
-| 4 | `validar-contraste` | WCAG AA on visual tokens | only when `visual` is present |
+| 4 | `validar-contraste` | WCAG AA on visual tokens — one retry with adjusted tokens, then report to the creator | only when `visual` is present |
 
 `scripts/validar-blueprint.py` implements gate 1 deterministically (no LLM). Gates 2–4 are instructional — the agent applies them and reports evidence.
 
