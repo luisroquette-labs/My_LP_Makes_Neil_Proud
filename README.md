@@ -2,6 +2,10 @@
   <img src="assets/cover.png" alt="My_LP_Makes_Neil_Proud — the landing-page engine" width="100%">
 </p>
 
+<p align="center">
+  <img src="assets/logo.png" alt="CF Gauss" width="72">
+</p>
+
 <h1 align="center">My_LP_Makes_Neil_Proud</h1>
 
 <p align="center">
