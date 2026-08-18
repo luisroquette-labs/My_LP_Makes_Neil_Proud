@@ -1,4 +1,4 @@
 interface:
   display_name: "My_LP_Makes_Neil_Proud"
-  short_description: "Evidence-backed landing-page audit score"
-  default_prompt: "Use $my-lp-makes-neil-proud to audit this landing page with an adherence score, launch readiness, metrics, and traceable sources."
+  short_description: "Full landing-page cycle: create, edit, audit, publish"
+  default_prompt: "Use $my-lp-makes-neil-proud to create a landing page from this brief, edit it by command, audit it with an adherence score and launch readiness, and prepare it for publication."
