@@ -100,7 +100,7 @@ If you ship one page a year, this is overkill. This skill earns its weight when 
 ### Option A — Claude Code skill (recommended)
 
 ```bash
-git clone https://github.com/luisroquette/My_LP_Makes_Neil_Proud.git ~/.claude/skills/my-lp-makes-neil-proud
+git clone https://github.com/luisroquette-labs/My_LP_Makes_Neil_Proud.git ~/.claude/skills/my-lp-makes-neil-proud
 ```
 
 Restart Claude Code — the skill loads as `my-lp-makes-neil-proud`. No API keys, no services, no runtime dependencies: the repository is Markdown contracts plus deterministic Python validators.
@@ -109,7 +109,7 @@ Restart Claude Code — the skill loads as `my-lp-makes-neil-proud`. No API keys
 
 ```bash
 # read before running, as always
-curl -L https://github.com/luisroquette/My_LP_Makes_Neil_Proud/archive/refs/heads/main.tar.gz | tar xz
+curl -L https://github.com/luisroquette-labs/My_LP_Makes_Neil_Proud/archive/refs/heads/main.tar.gz | tar xz
 mv My_LP_Makes_Neil_Proud-main my-lp-makes-neil-proud
 ```
 
@@ -540,7 +540,7 @@ The engine was not written as documentation after the fact. It was extracted fro
 
 **v2.1.0 — the tracklink plug.** The contracts now reference the sibling tracking skill as the owner of the tracking contract: every CTA ships as a tracked link, the lead records first-click attribution.
 
-Changelog: [CHANGELOG.md](./CHANGELOG.md) · Releases: [GitHub Releases](https://github.com/luisroquette/My_LP_Makes_Neil_Proud/releases)
+Changelog: [CHANGELOG.md](./CHANGELOG.md) · Releases: [GitHub Releases](https://github.com/luisroquette-labs/My_LP_Makes_Neil_Proud/releases)
 
 ---
 
@@ -651,7 +651,7 @@ That is the standard the name sets. A page that converts but cannot say where it
 **Luis Roquette** — Anthropic Select Services Partner, building the CF Gauss marketing stack (LP engine → email engine → tracking) as portable, auditable open-source skills.
 
 <p align="center">
-  <a href="https://github.com/luisroquette/My_UTMs_Make_Me_Proud">My_UTMs_Make_Me_Proud</a> ·
-  <a href="https://github.com/luisroquette/My_MailMKT_makes_Neil_Proud">My_MailMKT_makes_Neil_Proud</a> ·
-  <a href="https://github.com/luisroquette/My_LP_Makes_Neil_Proud">My_LP_Makes_Neil_Proud</a>
+  <a href="https://github.com/luisroquette-labs/My_UTMs_Make_Me_Proud">My_UTMs_Make_Me_Proud</a> ·
+  <a href="https://github.com/luisroquette-labs/My_MailMKT_makes_Neil_Proud">My_MailMKT_makes_Neil_Proud</a> ·
+  <a href="https://github.com/luisroquette-labs/My_LP_Makes_Neil_Proud">My_LP_Makes_Neil_Proud</a>
 </p>

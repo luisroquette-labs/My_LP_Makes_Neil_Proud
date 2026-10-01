@@ -1,6 +1,6 @@
 # Dashboard Contract — PLUGGABLE
 
-**Status: the exposure contract now exists.** [My_UTMs_Make_Me_Proud](https://github.com/luisroquette/My_UTMs_Make_Me_Proud) (v1.0.0) shipped, and its `references/nucleo/metricas.md` defines what the tracking system exposes. The dashboard implementation itself remains out of scope for this repo — it plugs into that contract.
+**Status: the exposure contract now exists.** [My_UTMs_Make_Me_Proud](https://github.com/luisroquette-labs/My_UTMs_Make_Me_Proud) (v1.0.0) shipped, and its `references/nucleo/metricas.md` defines what the tracking system exposes. The dashboard implementation itself remains out of scope for this repo — it plugs into that contract.
 
 ## What the tracklink system exposes
 
