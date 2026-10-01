@@ -15,7 +15,7 @@ Before an LP is published, verify all of these. They hold on any host, with or w
 
 ## (b) Tracklink system contract — implemented
 
-**Implemented by [My_UTMs_Make_Me_Proud](https://github.com/luisroquette/My_UTMs_Make_Me_Proud) (v1.0.0) — the tracking layer of the marketing suite.** Its `references/integracoes/lp.md` is the source of truth for this integration; its `references/nucleo/` holds the portable tracking cycle (creation, click, attribution, health, metrics). This reference summarizes the contract — when they disagree, the tracklink repo wins.
+**Implemented by [My_UTMs_Make_Me_Proud](https://github.com/luisroquette-labs/My_UTMs_Make_Me_Proud) (v1.0.0) — the tracking layer of the marketing suite.** Its `references/integracoes/lp.md` is the source of truth for this integration; its `references/nucleo/` holds the portable tracking cycle (creation, click, attribution, health, metrics). This reference summarizes the contract — when they disagree, the tracklink repo wins.
 
 The tracklink system provides:
 
