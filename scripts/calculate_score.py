@@ -94,7 +94,6 @@ def calculate(payload: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(metrics, dict):
         raise ValueError("metrics must be a JSON object")
     visitors = number(metrics.get("unique_visitors"), "unique_visitors")
-    # explicit null must behave as absent — a nulled alias must not kill the fallback
     views = number(metrics["page_views"] if metrics.get("page_views") is not None else visitors, "page_views")
     visits = number(metrics.get("total_visits", metrics.get("visits", views)), "total_visits")
     leads = number(metrics.get("valid_leads", metrics.get("leads")), "valid_leads")

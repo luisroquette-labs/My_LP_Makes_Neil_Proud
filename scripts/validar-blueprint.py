@@ -83,7 +83,6 @@ def _valida_visual(visual):
             if valor is not None and not isinstance(valor, str) or valor == "":
                 errs.append(f"visual.cores.{campo}: must be a non-empty string")
     hero = visual.get("hero")
-    # fiel ao tipo real ArranjoHero (lib/motor-lp/blueprint.ts do cfgauss-site)
     HERO_ALLOWLIST = {"imagem-esquerda", "imagem-fundo", "sem-imagem-centralizado", "video-fundo"}
     if hero is not None:
         if not isinstance(hero, str) or hero not in HERO_ALLOWLIST:
@@ -98,7 +97,6 @@ def validar(blueprint):
     if not isinstance(blueprint, dict):
         return ["blueprint: must be a JSON object"]
 
-    # Universal fields: presence + string type.
     for campo in UNIVERSAL_STRING_FIELDS:
         valor = blueprint.get(campo)
         if not isinstance(valor, str) or not valor.strip():
@@ -142,9 +140,6 @@ def validar(blueprint):
     if not isinstance(lgpd, dict) or lgpd.get("consentimento") is not True:
         errs.append("lgpd: must be an object with consentimento: true")
 
-    # Per-model object: form checks only (mirrors validar-estrutura).
-    # A model object whose key does not match the declared model is a form
-    # error — "wrong or missing object is a form error" (blueprint.md).
     OBJETOS_DE_MODELO = {"curso", "evento", "captura", "lancamento"}
     for chave_objeto in OBJETOS_DE_MODELO:
         if chave_objeto in blueprint and blueprint.get("modelo") != chave_objeto:
@@ -212,7 +207,6 @@ def validar(blueprint):
         elif rastreamento.get("ga4") is not None and not isinstance(rastreamento.get("ga4"), str):
             errs.append("rastreamento.ga4: must be a string when present")
 
-    # Optional sections: absent is OK (omitted, not zero), wrong shape is not.
     if blueprint.get("seo") is not None:
         if isinstance(blueprint.get("seo"), dict):
             errs += _valida_seo(blueprint["seo"])
