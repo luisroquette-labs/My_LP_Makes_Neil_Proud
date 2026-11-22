@@ -3,11 +3,11 @@ import subprocess
 import sys
 
 from pygments import lex
-from pygments.lexers import PythonLexer, YamlLexer
+from pygments.lexers import BashLexer, PythonLexer, YamlLexer
 from pygments.token import Comment
 
 
-LEXERS = {".py": PythonLexer, ".yaml": YamlLexer, ".yml": YamlLexer}
+LEXERS = {".py": PythonLexer, ".sh": BashLexer, ".yaml": YamlLexer, ".yml": YamlLexer}
 
 
 def comment_lines(source: str, suffix: str) -> list[int]:
@@ -15,9 +15,7 @@ def comment_lines(source: str, suffix: str) -> list[int]:
     line = 1
     for token, value in lex(source, LEXERS[suffix.lower()]()):
         required_directive = (
-            suffix.lower() == ".py" and line == 1 and value.startswith("#!")
-        ) or (
-            suffix.lower() == ".html" and value.lower().startswith("<!doctype")
+            suffix.lower() in {".py", ".sh"} and line == 1 and value.startswith("#!")
         )
         if token in Comment and not required_directive:
             lines.append(line)
@@ -42,7 +40,7 @@ def main() -> int:
     if failures:
         print("Comments are forbidden:\n" + "\n".join(failures), file=sys.stderr)
         return 1
-    print("Comment ratchet: zero comments in tracked Python, YAML and gitignore files.")
+    print("Comment ratchet: zero comments in tracked Python, shell, YAML and gitignore files.")
     return 0
 
 

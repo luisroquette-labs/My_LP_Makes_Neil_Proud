@@ -13,6 +13,12 @@ class CommentLintTest(unittest.TestCase):
     def test_yaml_string_and_comment(self):
         self.assertEqual(comment_lines('name: "# literal"\nvalue: yes # old\n', '.yaml'), [2])
 
+    def test_shell_shebang_string_and_comment(self):
+        self.assertEqual(comment_lines('#!/bin/sh\nprintf "%s" "# literal"\n# old\n', '.sh'), [3])
+
+    def test_shell_inline_comment(self):
+        self.assertEqual(comment_lines('echo ready # old\n', '.sh'), [1])
+
     def test_gitignore_comment_and_literal(self):
         self.assertEqual(gitignore_comment_lines('\\#literal\n# old\n.qlaude/\n'), [2])
 
